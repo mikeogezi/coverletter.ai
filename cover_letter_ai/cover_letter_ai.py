@@ -17,7 +17,7 @@ from .text_to_pdf import PDFCreator
 import threading
 
 # Set up your OpenAI API key
-openai.api_key = "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"
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 filename = f"{config.app_name}/{config.app_name}.py"
 
