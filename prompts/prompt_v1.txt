@@ -1,0 +1,10 @@
+Resume/CV
+---------
+{resume_text}
+
+
+Job Posting
+-----------
+{job_posting_text}
+
+Based on (1) the Resume/CV and (2) the Job Posting pasted above, write a convincing cover letter on behalf of the job applicant addressed to the employer that highlights their skills and addresses how you meet each and every job requirement

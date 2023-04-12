@@ -1,3 +1,4 @@
 newspaper3k=0.2.8
 PyMuPDF==1.16.14
 reportlab==3.6.1
+natsort==8.3.1

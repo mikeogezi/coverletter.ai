@@ -15,6 +15,7 @@ from fastapi.responses import FileResponse
 from fastapi import HTTPException
 from .text_to_pdf import PDFCreator
 import threading
+from natsort import natsorted
 
 # Set up your OpenAI API key
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -28,16 +29,8 @@ FILE_TYPES = ['pdf', 'txt']
 SAMPLE_LETTER = open('./sample_letter.txt') if os.path.exists('sample_letter.txt') else None
 
 def get_prompt(resume_text, job_posting_text):
-  return f'''Resume/CV
----------
-{resume_text}
-
-
-Job Posting
------------
-{job_posting_text}
-
-Based on (1) the Resume/CV and (2) the Job Posting pasted above, write a convincing cover letter on behalf of the job applicant addressed to the employer that highlights their skills and addresses how you meet each and every job requirement'''
+  prompt_files = natsorted(glob.glob('./prompts/*_v*.txt'), key=lambda x: x.lower())
+  return open(prompt_files[-1]).read().format(resume_text=resume_text, job_posting_text=job_posting_text)
        
 
 def set_interval(func, sec):
