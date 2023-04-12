@@ -25,21 +25,7 @@ PDF_UPLOAD_MESSAGE: str = "Drag and drop your Résumé or CV PDF"
 UPLOAD_DIR: str = ".web/public/{}"
 SESSION_IDS = set()
 FILE_TYPES = ['pdf', 'txt']
-SAMPLE_LETTER = '''Dear Hiring Manager,
-
-I am writing to express my interest in the Natural Language Processing & Speech Intern position at Amazon. As a PhD student in Computing Science with a strong background in machine learning and natural language processing, I am confident that I have the skills and experience necessary to excel in this role.
-
-My research experience as a Graduate Research Assistant Fellow at the University of Alberta has provided me with a solid foundation in designing experiments and statistical analysis of results. I have also gained experience in implementing algorithms using both toolkits and self-developed code. My technical fluency and ability to understand and discuss architectural concepts and algorithms make me a strong candidate for this position.
-
-I am excited about the opportunity to work with global experts in speech and language to solve challenging groundbreaking research problems on production scale data. My experience in building a fully-featured order-matching engine for selected crypto pairs on our exchange as a Software Engineer at Helicarrier (Buycoins) and bringing loans, money transfers, airtime purchases, bill payments, USSD, and SMS alerts to our agency banking customers across Nigeria as a Software Engineer at TeamApt have equipped me with the skills necessary to work with diverse groups of people and cross-functional teams to solve complex business problems.
-
-I am proud to have published papers in peer-reviewed conferences and journals, including UAlberta at SemEval-2023: Visual-WSD with Context Augmentation and V-CODE: Vision-Optimized Concept Descriptions. My excellent critical thinking skills, combined with the ability to present my beliefs clearly and compellingly in both verbal and written form, make me a strong communicator and collaborator.
-
-I am excited about the opportunity to work at Amazon and contribute to the development of new speech and language technology. Thank you for considering my application. I look forward to the opportunity to discuss my qualifications further.
-
-Sincerely,
-
-Michael Ogezi'''
+SAMPLE_LETTER = open('./sample_letter.txt') if os.path.exists('sample_letter.txt') else None
 
 def get_prompt(resume_text, job_posting_text):
   return f'''Resume/CV
@@ -155,6 +141,7 @@ class State(pc.State):
 
         # print(SAMPLE_LETTER)
         # self.cover_letter = SAMPLE_LETTER
+        # assert self.cover_letter != None
 
         self.cover_letter = completion.choices[0].message.content
         self.toggle_modal()
@@ -198,7 +185,7 @@ def index() -> pc.Component:
             padding="0.5em",
             multiple=False,
             max_size=5 * 1024 * 1024,
-            accept=['pdf'],
+            accept=['application/pdf'],
             # on_mouse_out=lambda: State.handle_pdf_upload(pc.upload_files()),
           ),
           pc.spacer(),
@@ -223,8 +210,8 @@ def index() -> pc.Component:
           width='100%',
           is_disabled=(State.job_posting_url == '') and (State.upload_file_name == ''),
         ),
-        pc.text('upload_file_name:', State.upload_file_name, font_size="0.35em"),
-        pc.text('job_posting_url:', State.job_posting_url, font_size="0.35em"),
+        # pc.text('upload_file_name:', State.upload_file_name, font_size="0.35em"),
+        # pc.text('job_posting_url:', State.job_posting_url, font_size="0.35em"),
         # pc.text('is_generate_loading:', State.is_generate_loading, font_size="0.35em"),
         # pc.text('pdf_upload_message:', State.get_upload_message, font_size="0.35em"),
         pc.modal(
