@@ -4,3 +4,5 @@ __pycache__
 .DS_Store
 *.zip
 sample_letter.txt
+resume.md
+job_post.md

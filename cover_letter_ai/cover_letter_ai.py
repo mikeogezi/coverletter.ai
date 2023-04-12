@@ -27,9 +27,12 @@ UPLOAD_DIR: str = ".web/public/{}"
 SESSION_IDS = set()
 FILE_TYPES = ['pdf', 'txt']
 SAMPLE_LETTER = open('./sample_letter.txt') if os.path.exists('sample_letter.txt') else None
+GOD_MODE = not bool(os.getenv('NOT_GOD_MODE', ''))
 
 def get_prompt(resume_text, job_posting_text):
   prompt_files = natsorted(glob.glob('./prompts/*_v*.txt'), key=lambda x: x.lower())
+  if GOD_MODE:
+    resume_text = open('resume.md').read()
   return open(prompt_files[-1]).read().format(resume_text=resume_text, job_posting_text=job_posting_text)
        
 
